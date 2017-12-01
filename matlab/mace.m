@@ -1,5 +1,5 @@
-function maceFilt = mace(classPics, u)
-%---------- Q2(2) ----------%
+function maceFilt = mace(classPics,u)
+
 [picH, picW, noOfPics] = size(classPics);
 faceFFTMat = fft2(classPics);
 faceFFTVec = reshape(faceFFTMat, [picH*picW noOfPics]);
@@ -10,4 +10,5 @@ for image = 1:size(faceX2Vec,2)
 end
 maceFilt = inv(dMat)*faceFFTVec*inv(faceFFTVec'*inv(dMat)*faceFFTVec)*u;
 maceFilt = reshape(maceFilt, [picH picW]);
+
 end

@@ -1,8 +1,12 @@
-% clear all;
+clear all;
 load('lfwDB.mat');
 
+cnnImgDim = [250 250 1];
+maceImgDim = [50 50];
 lfw4MinImgLabels = 430;
-lfwDB = imageDatastore(fullfile('../lfw_gray'), 'IncludeSubfolders',true,'LabelSource','foldernames');
-lfwImgDim = [50 50 1];
 
-convNet = trainCNN(lfwDB,lfwImgDim,lfw4MinImgLabels);
+% maceFilts = [];
+% for i=1:max(lfwDB.indexLabelMap)
+%     u = ones(sum(lfwDB.indexLabelMap == i), 1);
+% end    
+convNet = trainCNN(lfwDB.lfwMatDBG,cnnImgDim,lfw4MinImgLabels);
