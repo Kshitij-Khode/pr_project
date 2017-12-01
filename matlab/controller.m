@@ -1,4 +1,7 @@
+% clear all;
+lfwDB          = load('lfwDB.mat');
 numberOfPeople = 430;
+
 
 %% Neural net architecture 
 layers = [
@@ -18,15 +21,15 @@ layers = [
     
     convolution2dLayer(3,32,'Stride',2,'Padding',1)
     batchNormalizationLayer
-    reluLayer   
+    reluLayer
     
     fullyConnectedLayer(numberOfPeople)
     softmaxLayer
     classificationLayer];
 
-options = trainingOptions('sgdm','MaxEpochs',15, ...
+options = trainingOptions('sgdm','MaxEpochs',5, ...
 	'InitialLearnRate',0.01,'LearnRateDropFactor',0.1,...
     'LearnRateDropPeriod',5,'MiniBatchSize',16, ...
     'Plots','training-progress','Shuffle','every-epoch');
 
-%convnet = trainNetwork(trainDigitData,layers,options);
+convnet = trainNetwork(lfwDB.images{1:100},layers,options);
