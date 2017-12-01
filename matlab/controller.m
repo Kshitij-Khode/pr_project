@@ -1,5 +1,5 @@
 clear all;
-load('lfwDB.mat');
+load('../data/lfwDB.mat');
 
 cnnImgDim = [250 250 1];
 maceImgDim = [50 50];

@@ -1,7 +1,7 @@
 function createImgDB()
 
-lfwMatDBC = imageDatastore(fullfile('../lfw'), 'IncludeSubfolders',true,'LabelSource','foldernames');
-lfwMatDBG = imageDatastore(fullfile('../lfw_gray'), 'IncludeSubfolders',true,'LabelSource','foldernames');
+lfwMatDBC = imageDatastore(fullfile('../data/lfw'), 'IncludeSubfolders',true,'LabelSource','foldernames');
+lfwMatDBG = imageDatastore(fullfile('../data/lfw_gray'), 'IncludeSubfolders',true,'LabelSource','foldernames');
 [lfwDB.labels, ~, lfwDB.labelMap] = unique(lfwMatDBG.Labels);
     
 for i = 1:max(lfwDB.labelMap)
@@ -13,6 +13,6 @@ end
 
 lfwDB.lfwMatDBC = lfwMatDBC;
 lfwDB.lfwMatDBG = lfwMatDBG;
-save('lfwDB.mat', 'lfwDB');
+save('../data/lfwDB.mat', 'lfwDB');
 
 end
