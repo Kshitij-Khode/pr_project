@@ -24,9 +24,8 @@ end
 
 for i = 1:size(lfwDB.images,1)
    pplImages = [];
-   imgCell = lfwDB.images(i,1:end-1);
-   mace = lfwDB.images(i,end-2:end-1);
+   imgCell = lfwDB.images(i,:);
    for j = 1:size(imgCell,2)
-       imwrite(cat(2,mace,imgCell{j}),'img#%f.png',j);
+       
    end
 end
