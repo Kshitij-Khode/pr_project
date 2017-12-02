@@ -1,7 +1,15 @@
-function convNet = trainCNN(imgObj,imgDim,noOfLabels)
+function convNet = trainCNN(data,imgDim,noOfLabels)
 
+trainingNumFiles = 3;
+rng(1) % For reproducibility
+[trainData,valData] = splitEachLabel(data,...
+				trainingNumFiles,'randomize');
+            
 layers = [
-    imageInputLayer(imgDim)
+    imageInputLayer([2*imgDim imgDim 1])
+    
+    convolution2dLayer(imgDim,2,'Name','splitLayer','Stride',imgDim)
+    dropoutLayer(0.25)
     
     convolution2dLayer(5,12,'Stride',1,'Padding',1)
     batchNormalizationLayer
@@ -23,11 +31,17 @@ layers = [
     softmaxLayer
     classificationLayer];
 
-options = trainingOptions('sgdm','MaxEpochs',5, ...
-	'InitialLearnRate',0.01,'LearnRateDropFactor',0.1,...
-    'LearnRateDropPeriod',5,'MiniBatchSize',16, ...
-    'Plots','training-progress','Shuffle','every-epoch');
+options = trainingOptions('sgdm','MaxEpochs',20, ...
+	'InitialLearnRate',0.01,'LearnRateDropFactor',0.9,...
+    'LearnRateDropPeriod',1,'L2Regularization',0.0005,...
+    'ValidationData',valData,...
+    'ValidationFrequency',30,...
+    'Plots','training-progress');
 
-convNet = trainNetwork(imgObj,layers,options);
+onesMatrix = ones(2*imdDim,imgDim);
+firstLayerWeights = [imgDim,imgDim,2,onesMatrix];
+splitLayer.Weights = (firstLayerWeights);
+splitLayer.setLearnRateFactor(0);
+convNet = trainNetwork(trainData,layers,options);
 
 end
