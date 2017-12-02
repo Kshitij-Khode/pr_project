@@ -8,7 +8,7 @@ dMat       = zeros(size(faceFFTVec,1), size(faceFFTVec,1));
 for image = 1:size(faceX2Vec,2)
     dMat = dMat + diag(faceX2Vec(:,image));
 end
-maceFilt = inv(dMat)*faceFFTVec*inv(faceFFTVec'*inv(dMat)*faceFFTVec)*u;
+maceFilt = pinv(dMat)*faceFFTVec*pinv(faceFFTVec'*pinv(dMat)*faceFFTVec)*u;
 maceFilt = reshape(maceFilt, [picH picW]);
 
 end
