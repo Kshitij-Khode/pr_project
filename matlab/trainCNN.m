@@ -4,6 +4,7 @@ data = imageDatastore(fullfile('../data/CASIA_temp'), 'IncludeSubfolders',true,'
 trainingNumFiles = round(0.75*trainingNumFiles);
 [trainData,valData] = splitEachLabel(data,...
                 trainingNumFiles,'randomize');
+
 createDB()
 computeMaceFilters()
 concatMaceFilters()

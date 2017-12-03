@@ -12,7 +12,6 @@ function computeMaceFilters()
         normMACE = macefilt - min(macefilt(:));
         normMACE = normMACE ./ max(normMACE(:));
         normMACE = normMACE .* 255;
-        surf(macefilt);
         fprintf('mace_iter:%d\n', i);
     end
     lfwDB.images{i,end+1} = normMACE;
