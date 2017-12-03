@@ -1,4 +1,8 @@
-function convNet = trainCNN(imgDim,noOfLabels,trainingNumFiles)
+function convNet = trainCNN(data,imgDim,noOfLabels,trainingNumFiles)
+
+rng(1) % For reproducibility
+[trainData,~] = splitEachLabel(data,...
+                trainingNumFiles,'randomize');
 
 data = imageDatastore(fullfile('../data/CASIA_temp'), 'IncludeSubfolders',true,'LabelSource','foldernames');
 trainingNumFiles = round(0.75*trainingNumFiles);
