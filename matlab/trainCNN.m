@@ -13,7 +13,7 @@ layers = [
     imageInputLayer([imgDim 2*imgDim 1])
 
     convolution2dLayer(3,20,'Name','splitLayer','Stride',1)
-    dropoutLayer(0.25)
+    dropoutLayer
 
     convolution2dLayer(5,12,'Stride',1,'Padding',1)
     batchNormalizationLayer
@@ -23,7 +23,8 @@ layers = [
 
     convolution2dLayer(4,25,'Stride',1,'Padding',0)
     batchNormalizationLayer
-    reluLayer   
+    reluLayer
+    dropoutLayer
 
     maxPooling2dLayer(2,'Stride',2)
 

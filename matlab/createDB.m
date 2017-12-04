@@ -10,6 +10,7 @@ function createDB()
             [filepath,filename,ext] = fileparts(labelFiles{j});
             lfwDB.path{i,j} = sprintf('%s/%s%s', filepath,filename,ext);
         end
+        fprintf('createDB:iter:%d\n',i);
     end
 
     lfwDB.lfwMatDBC = lfwMatDBC;

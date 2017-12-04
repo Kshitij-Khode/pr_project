@@ -7,5 +7,6 @@ function concatMaceFilters()
            outputpath = lfwDB.path{i,j};
            imwrite(cat(2,mace,imgCell{j}),outputpath);
        end
+       fprintf('concatMace:iter:%d\n',i);
     end
 end
