@@ -1,7 +1,0 @@
-clear all;
-
-
-predictedLabels = classify(net,valDigitData);
-valLabels = valDigitData.Labels;
-
-accuracy = sum(predictedLabels == valLabels)/numel(valLabels)

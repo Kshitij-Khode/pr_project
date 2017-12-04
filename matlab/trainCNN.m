@@ -10,6 +10,12 @@ trainingNumFiles = round(0.9*trainingNumFiles);
 % computeMaceFilters()
 % concatMaceFilters()
 
+net = vgg16;
+netLayers = net.Layers;
+netLayers(1) = imageInputLayer([imgDim 2*imgDim 1]);
+netLayers(2) = convolution2dLayer(3,64);
+netLayers(39) = fullyConnectedLayer(noOfLabels);
+
 layers = [
     imageInputLayer([imgDim 2*imgDim 1])
 %     imageInputLayer([112 96 1])
@@ -45,6 +51,6 @@ options = trainingOptions('sgdm','MaxEpochs',20, ...
     'ValidationFrequency',30,...
     'Plots','training-progress');
 
-convNet = trainNetwork(trainData,layers,options);
+convNet = trainNetwork(trainData,netLayers,options);
 
 end
