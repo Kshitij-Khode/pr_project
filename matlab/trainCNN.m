@@ -1,16 +1,18 @@
 function convNet = trainCNN(imgDim,noOfLabels,trainingNumFiles)
 
 data = imageDatastore(fullfile('../data/CASIA_temp'), 'IncludeSubfolders',true,'LabelSource','foldernames');
-trainingNumFiles = round(0.75*trainingNumFiles);
+% data = imageDatastore(fullfile('../data/CASIAGray750_30'), 'IncludeSubfolders',true,'LabelSource','foldernames');
+trainingNumFiles = round(0.9*trainingNumFiles);
 [trainData,valData] = splitEachLabel(data,...
                 trainingNumFiles,'randomize');
 
-createDB()
-computeMaceFilters()
-concatMaceFilters()
+% createDB()
+% computeMaceFilters()
+% concatMaceFilters()
 
 layers = [
     imageInputLayer([imgDim 2*imgDim 1])
+%     imageInputLayer([112 96 1])
 
     convolution2dLayer(3,20,'Name','splitLayer','Stride',1)
     dropoutLayer
