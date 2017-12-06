@@ -1,6 +1,6 @@
 function createDB()
 
-    lfwMatDBC = imageDatastore(fullfile('../data/CASIA_temp'), 'IncludeSubfolders',true,'LabelSource','foldernames');
+    lfwMatDBC = imageDatastore(fullfile('../data/CASIAGray30_1000'), 'IncludeSubfolders',true,'LabelSource','foldernames');
     [lfwDB.labels, ~, lfwDB.labelMap] = unique(lfwMatDBC.Labels);
 
     for i = 1:max(lfwDB.labelMap)
@@ -14,5 +14,5 @@ function createDB()
     end
 
     lfwDB.lfwMatDBC = lfwMatDBC;
-    save('../data/lfwDB.mat', 'lfwDB');
+    save('../data/faceData.mat', 'lfwDB');
 end

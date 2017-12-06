@@ -1,33 +1,29 @@
 function convNet = trainCNN(imgDim,noOfLabels,trainingNumFiles)
 
-data = imageDatastore(fullfile('../data/CASIA_temp'), 'IncludeSubfolders',true,'LabelSource','foldernames');
+data = imageDatastore(fullfile('../data/CASIAGray30_1000'), 'IncludeSubfolders',true,'LabelSource','foldernames');
 % data = imageDatastore(fullfile('../data/CASIAGray750_30'), 'IncludeSubfolders',true,'LabelSource','foldernames');
 trainingNumFiles = round(0.9*trainingNumFiles);
 [trainData,valData] = splitEachLabel(data,...
                 trainingNumFiles,'randomize');
-
-% createDB()
-% computeMaceFilters()
+load('../data/inversemaceReal.mat','inversemaceReal');
+%createDB()
 % concatMaceFilters()
 
-net = vgg16;
-netLayers = net.Layers;
-netLayers(1) = imageInputLayer([imgDim 2*imgDim 1]);
-netLayers(2) = convolution2dLayer(3,64);
-netLayers(39) = fullyConnectedLayer(noOfLabels);
 
 layers = [
-    imageInputLayer([imgDim 2*imgDim 1])
+    imageInputLayer([imgDim imgDim 1])
 %     imageInputLayer([112 96 1])
-
-    convolution2dLayer(3,20,'Name','splitLayer','Stride',1)
+    
+    convolution2dLayer(imgDim,noOfLabels,'Name','maceFilters',...
+       'Stride',10,'Padding',imgDim/2);
+    
     dropoutLayer
 
-    convolution2dLayer(5,12,'Stride',1,'Padding',1)
+    convolution2dLayer(3,30,'Stride',1,'Padding',1)
     batchNormalizationLayer
     reluLayer   
 
-    maxPooling2dLayer(2,'Stride',2)
+    maxPooling2dLayer(2,'Stride',1,'Padding',1)
 
     convolution2dLayer(4,25,'Stride',1,'Padding',0)
     batchNormalizationLayer
@@ -35,10 +31,6 @@ layers = [
     dropoutLayer
 
     maxPooling2dLayer(2,'Stride',2)
-
-    convolution2dLayer(3,32,'Stride',2,'Padding',1)
-    batchNormalizationLayer
-    reluLayer
 
     fullyConnectedLayer(noOfLabels)
     softmaxLayer
@@ -51,6 +43,8 @@ options = trainingOptions('sgdm','MaxEpochs',20, ...
     'ValidationFrequency',30,...
     'Plots','training-progress');
 
-convNet = trainNetwork(trainData,netLayers,options);
+%layers(2).Weights = computeMaceFilters(imgDim, noOfLabels);
+layers(2).Weights = inversemaceReal;
+convNet = trainNetwork(trainData,layers,options);
 
 end
