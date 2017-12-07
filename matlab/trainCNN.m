@@ -15,17 +15,17 @@ layers = [
     imageInputLayer([112 96 1])
     
     convolution2dLayer(imgDim,noOfLabels,'Name','maceFilters',...
-       'Stride',10,'Padding',imgDim/2);
+       'Stride',32,'Padding',imgDim/2);
     
     dropoutLayer
 
-    convolution2dLayer(3,30,'Stride',1,'Padding',1)
+    convolution2dLayer(3,64,'Stride',1,'Padding',1)
     batchNormalizationLayer
     reluLayer   
 
-    maxPooling2dLayer(2,'Stride',1,'Padding',1)
+    maxPooling2dLayer(2,'Stride',2,'Padding',1)
 
-    convolution2dLayer(4,25,'Stride',1,'Padding',0)
+    convolution2dLayer(3,128,'Stride',2,'Padding',1)
     batchNormalizationLayer
     reluLayer
     dropoutLayer
@@ -39,7 +39,7 @@ layers = [
 options = trainingOptions('sgdm','MaxEpochs',20, ...
     'InitialLearnRate',0.01,'LearnRateDropFactor',0.9,...
     'LearnRateDropPeriod',1,'L2Regularization',0.0005,...
-    'miniBatchSize',8,...
+    'miniBatchSize',4,...
     'ValidationData',valData,...
     'ValidationFrequency',30,...
     'Plots','training-progress');
